@@ -4,7 +4,7 @@
 % this version does not plot graphs but puts all trials together
 % and generates predictor vectors
 
-data = (cRED);
+data = (cRED); %select you data
 IN = IN1;
 
 edges = diff(IN); edges(length(edges)+1) = 0; 
@@ -18,12 +18,9 @@ cue = rise (len >=5 & len <= 7);
 leftpoke = rise(len >= 23);
 randomized = randi (length(data), 15, 1);
 
-
-
 %% JB (6/23/2017)- look up events
 % uptaded in May 2023
-% uses data generated from doricFPprocess.m
-%stripped down version to use with FED
+
 
 n = 1; %legacy from LUevents.m
 
