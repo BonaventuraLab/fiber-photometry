@@ -20,7 +20,7 @@ ISOSBESTIC = RAWDATA(5).Data(1).Data;
 %RED = RAWDATA(3).Data(2).Data  ;
 Times = RAWDATA(4).Data(2).Data  ;
 sr = round(length(Times)/Times(end)); % update to your sampling rate
-sr= 1205;
+%sr= 1205;
 
 Fig1 = figure; 
 subplot (2,1,1)
