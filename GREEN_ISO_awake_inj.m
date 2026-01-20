@@ -190,17 +190,29 @@ plot (newT, zScore); hold on;
 plot (zpk_time, zampl, 'or')
 title('z-score corrected data')
 
-timebin = 300; %in seconds
-for i = 1:18
- greenwid = zwidth (zpk_time > timebin*(i-1) & zpk_time < timebin*i);
- greenamp = zprom (zpk_time > timebin*(i-1) & zpk_time < timebin*i);
- gbins (i,1)= length (greenwid)/(timebin/60);
- gbins (i,2)= mean (greenwid);
- gbins (i,3)= mean (greenamp);
+% bin peak data
+timebin = 5;        % bin size in minutes
+t0 = -10;            % STARTING TIME in minutes
+nbins = 8;           % number of bins
+gbins = nan(nbins,4);
+for i = 1:nbins
+    t_start = t0 + timebin*(i-1);
+    t_end   = t0 + timebin*i;
+    idx = zpk_time >= t_start & zpk_time < t_end;
+    greenwid = zwidth(idx);
+    greenamp = zprom(idx);
+    gbins(i,1)= t_end;
+    gbins(i,2) = numel(greenwid) / (timebin);  % peaks per min
+    gbins(i,3) = mean(greenwid, 'omitnan');
+    gbins(i,4) = mean(greenamp, 'omitnan');
 end
-disp ('GREEN')
-disp (strcat('Pks per min / Width / Prom ...in: ', num2str(timebin), ' second bins'))
-disp (gbins)
+
+disp(['Time bin / Pks per min / Width / Prom ...in: ', num2str(timebin), ' minute bins'])
+disp(gbins)
+
+
+
+
 %% save figures and selected data
 % activate/deatctivate your option
 
@@ -226,4 +238,5 @@ function baseline = als_baseline(y, lambda, p)
         w = p * (y > baseline) + (1 - p) * (y <= baseline);
     end
 end
+
 
